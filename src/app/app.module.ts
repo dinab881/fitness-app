@@ -4,6 +4,16 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './containers/app/app.component';
 import {Store} from 'store';
+/* Feature module */
+import {AuthModule} from './auth/auth.module';
+import {Routes} from '@angular/router';
+
+export const ROUTES: Routes = [
+  {
+    path: 'auth',
+    children: [{}]
+  }
+];
 
 @NgModule({
   declarations: [
@@ -11,6 +21,7 @@ import {Store} from 'store';
   ],
   imports: [
     BrowserModule,
+    AuthModule,
     AppRoutingModule
   ],
   providers: [Store],
