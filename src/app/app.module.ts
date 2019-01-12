@@ -8,6 +8,7 @@ import {Store} from 'store';
 import {AuthModule} from './auth/auth.module';
 import {Routes} from '@angular/router';
 
+
 export const ROUTES: Routes = [
   {
     path: 'auth',
