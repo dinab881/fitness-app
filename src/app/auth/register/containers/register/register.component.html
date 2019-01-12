@@ -5,5 +5,9 @@
     <button type="submit">
       Create account
     </button>
+
+    <div class="error" *ngIf="error">
+       {{ error }}
+    </div>
   </app-auth-form>
 </div>
