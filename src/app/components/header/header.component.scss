@@ -8,12 +8,14 @@
   }
   &__user-info {
     position: absolute;
+    width: 24px;
+    height: 24px;
     top: 16px;
     right: 0;
     cursor: pointer;
   }
   span {
-    background: url(/img/logout.svg) no-repeat;
+    background: url(/assets/img/logout.svg) no-repeat;
     background-size: contain;
     width: 24px;
     height: 24px;

@@ -8,6 +8,7 @@ import {Routes} from '@angular/router';
 
 /* Feature module */
 import {AuthModule} from './auth/auth.module';
+import {HealthModule} from './health/health.module';
 
 /* Containers */
 import { AppComponent } from './containers/app/app.component';
@@ -16,13 +17,6 @@ import { AppComponent } from './containers/app/app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 
-
-export const ROUTES: Routes = [
-  {
-    path: 'auth',
-    children: [{}]
-  }
-];
 
 @NgModule({
   declarations: [
@@ -33,6 +27,7 @@ export const ROUTES: Routes = [
   imports: [
     BrowserModule,
     AuthModule,
+    HealthModule,
     AppRoutingModule
   ],
   providers: [Store],

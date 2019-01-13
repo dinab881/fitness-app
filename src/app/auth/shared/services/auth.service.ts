@@ -11,6 +11,7 @@ export interface User {
 
 @Injectable()
 export class AuthService {
+
   auth$ = this.af.authState
     .pipe(tap(next => {
       if (!next) {
@@ -31,6 +32,13 @@ export class AuthService {
   ) {
   }
 
+  get authState(){
+    return this.af.authState;
+  }
+
+  get user(){
+    return this.af.auth.currentUser;
+  }
   createUser(email: string, password: string) {
     return this.af.auth.createUserWithEmailAndPassword(email, password);
   }
