@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Meal, MealsService} from '../../../shared/services/meals.service';
+import {Meal, MealsService} from '../../../shared/services/meals/meals.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
@@ -11,20 +11,20 @@ import {switchMap} from 'rxjs/operators';
 })
 export class MealComponent implements OnInit, OnDestroy {
 
-  meal$: Observable<Meal>;
+  meal$: Observable<Meal> | Observable<{}>;
   subscription: Subscription;
 
   constructor(
-    private mealService: MealsService,
+    private mealsService: MealsService,
     private router: Router,
     private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    this.mealService.meals$.subscribe();
+    this.subscription = this.mealsService.meals$.subscribe();
     this.meal$ = this.route.params
-      .pipe(switchMap(param => this.mealService.getMeal(param.id)));
+      .pipe(switchMap(param => this.mealsService.getMeal(param.id)));
 
   }
 
@@ -33,7 +33,19 @@ export class MealComponent implements OnInit, OnDestroy {
   }
 
   async addMeal(event: Meal) {
-    await this.mealService.addMeal(event);
+    await this.mealsService.addMeal(event);
+    this.backToMeals();
+  }
+
+  async updateMeal(event: Meal) {
+    const key = this.route.snapshot.params.id;
+    await this.mealsService.updateMeal(key, event);
+    this.backToMeals();
+  }
+
+  async removeMeal() {
+    const key = this.route.snapshot.params.id;
+    await this.mealsService.removeMeal(key);
     this.backToMeals();
   }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AuthService} from '../../../auth/shared/services/auth.service';
-import {Store} from 'store';
+import {AuthService} from '../../../../auth/shared/services/auth.service';
+import {Store} from 'src/store';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Observable, of} from 'rxjs';
 import {filter, map, tap} from 'rxjs/operators';
@@ -18,11 +18,15 @@ export class MealsService {
   meals$: Observable<any[]> = this.db.list(`meals/${this.uid}`).snapshotChanges()
     .pipe(map(changes => {
       console.log(changes);
-      return changes.map(c => ({
-        $key: c.payload.key, ...c.payload.val()
-      }));
-    })
-     ,
+      return changes.map(c => {
+        console.log('payload val', c.payload.val());
+        return ({
+          $key: c.payload.key, ...c.payload.val()
+        });
+      }
+
+      );
+    }),
       tap(next => this.store.set('meals', next)));
 
   constructor(
@@ -40,15 +44,20 @@ export class MealsService {
     if (!key) {
       return of({});
     }
-    return this.store.select<Meal[]>('meals')
-      .pipe(filter(Boolean), map(meals => {
-        meals.find((meal: Meal) => meal.$key === key);
-      }));
+     return this.store.select<Meal[]>('meals')
+      .pipe(
+        filter(Boolean),
+        map(meals => meals.find((meal: Meal) => meal.$key === key))
+      );
   }
 
   addMeal(meal: Meal){
     return this.db.list(`meals/${this.uid}`).push(meal);
 
+  }
+
+  updateMeal(key: string, meal: Meal){
+    return this.db.object(`meals/${this.uid}/${key}`).update(meal);
   }
 
   removeMeal(key: string){
