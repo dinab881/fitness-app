@@ -23,6 +23,7 @@ export class ScheduleCalendarComponent implements OnInit {
   }
 
   onChange(weekOffset: number) {
+    console.log('weekoffset', weekOffset);
     const startOfWeek = this.getStartOfWeek(new Date());
     const startDate = (
       new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate())
