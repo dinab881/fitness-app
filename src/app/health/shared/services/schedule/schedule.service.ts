@@ -20,7 +20,6 @@ export interface ScheduleList {
   lunch?: ScheduleItem;
   evening?: ScheduleItem;
   snacks?: ScheduleItem;
-
   [key: string]: any;
 }
 
@@ -29,6 +28,7 @@ export class ScheduleService {
   private date$ = new BehaviorSubject(new Date());
   private section$ = new Subject();
   private itemList$ = new Subject();
+
   items$ = this.itemList$.pipe(
     withLatestFrom(this.section$),
     map(([items, section]: any[]) => {

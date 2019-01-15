@@ -36,9 +36,19 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
   constructor() {
   }
 
+  ngOnInit() {
+    console.log('OnInit selectedDayIndex', this.selectedDayIndex);
+    console.log('OnInit selectedDay', this.selectedDay);
+    console.log('OnInit selectedWeek', this.selectedWeek);
+  }
+
   ngOnChanges() {
+
     this.selectedDayIndex = this.getToday(this.selectedDay);
     this.selectedWeek = this.getStartOfWeek(new Date(this.selectedDay));
+    console.log('OnOnChanges selectedDayIndex', this.selectedDayIndex);
+    console.log('OnOnChanges selectedDay', this.selectedDay);
+
   }
 
   selectDay(index: number) {
@@ -47,32 +57,18 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
     this.change.emit(selectedDay);
   }
 
-  ngOnInit() {
-  }
-
+  /* set start of week on controls */
   onChange(weekOffset: number) {
     console.log('weekoffset', weekOffset);
+
+    // start of week for current date (not changes with control's click)
     const startOfWeek = this.getStartOfWeek(new Date());
+
     const startDate = (
       new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate())
     );
     startDate.setDate(startDate.getDate() + (weekOffset * 7));
     this.change.emit(startDate);
-  }
-
-  private getStartOfWeek(date: Date) {
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(date.setDate(diff));
-
-  }
-
-  private getToday(date: Date) {
-    let today = date.getDay() - 1;
-    if (today < 0) {
-      today = 6;
-    }
-    return today;
   }
 
   getSection(name: string): ScheduleItem {
@@ -89,5 +85,24 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
       data
     });
   }
+
+  private getStartOfWeek(date: Date) {
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(date.setDate(diff));
+
+  }
+
+  private getToday(date: Date) {
+    console.log('here2', date.getDay());
+    let today = date.getDay() - 1;
+    if (today < 0) {
+      today = 6;
+    }
+    console.log('here', today);
+    return today;
+  }
+
+
 
 }

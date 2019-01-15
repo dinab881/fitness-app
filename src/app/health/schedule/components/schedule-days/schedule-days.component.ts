@@ -21,7 +21,7 @@ export class ScheduleDaysComponent implements OnInit {
   }
 
   selectDay(index: number){
-
+    this.select.emit(index);
   }
 
 }
