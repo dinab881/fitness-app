@@ -13,7 +13,10 @@ import {Workout, WorkoutsService} from '../../../shared/services/workouts/workou
 export class ScheduleComponent implements OnInit, OnDestroy {
   date$: Observable<Date>;
   subscriptions: Subscription[] = [];
+
+  // SECTIONS:6
   schedule$: Observable<ScheduleItem[]>;
+
   selected$: Observable<any>;
   list$: Observable<Meal[] | Workout[]>;
   open = false;
@@ -27,7 +30,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.date$ = this.store.select('date');
+
+    // SECTIONS:7
     this.schedule$ = this.store.select('schedule');
+
     this.selected$ = this.store.select('selected');
     this.list$ = this.store.select('list');
 
@@ -45,6 +51,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  // CONTROLS: set new value in date$ BehaviourSubject when clicking on controls
+  // DAYS:  set new value in date$ BehaviourSubject when clicking on days array
   changeDate(date: Date){
     this.scheduleService.updateDate(date);
   }

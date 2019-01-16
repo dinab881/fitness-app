@@ -7,6 +7,7 @@ import {Workout} from '../workouts/workouts.service';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {AuthService} from '../../../../auth/shared/services/auth.service';
 
+// SECTIONS:3
 export interface ScheduleItem {
   meals: Meal[];
   workouts: Workout[];
@@ -15,6 +16,7 @@ export interface ScheduleItem {
   $key?: string;
 }
 
+// SECTIONS:5 - Firebase will return
 export interface ScheduleList {
   morning?: ScheduleItem;
   lunch?: ScheduleItem;
@@ -25,8 +27,9 @@ export interface ScheduleList {
 
 @Injectable()
 export class ScheduleService {
-  private date$ = new BehaviorSubject(new Date());
+  // BehaviorSubject here - allows us to initialize with a new  piece of data
   private section$ = new Subject();
+  private date$ = new BehaviorSubject(new Date());
   private itemList$ = new Subject();
 
   items$ = this.itemList$.pipe(
@@ -58,9 +61,18 @@ export class ScheduleService {
       tap((next: any) => this.store.set('selected', next))
     );
 
-  schedule$: Observable<any[]> = this.date$.pipe(
+   // to retrieve workouts/meals for set week  and day.
+  //  Any time date changes with our BehaviorSubject, our schedule is going
+  // to be notified
+
+ // CONTROLS
+  schedule$: Observable<ScheduleItem[]> = this.date$.pipe(
     tap((next: any) => this.store.set('date', next)),
+
+    // SECTIONS:10
     map((day: any) => {
+      // anytime we update date the date we want to go to firebase and make request
+      // between specific timestamp. For this we need startAt and endAt
       const startAt = (new Date(day.getFullYear(), day.getMonth(), day.getDate())).getTime();
       const endAt = (new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1)).getTime() - 1;
 
@@ -93,14 +105,17 @@ export class ScheduleService {
   ) {
   }
 
+  // CONTROLS - set new value in date$ BehaviourSubject when clicking on controls
   updateDate(date: Date) {
     this.date$.next(date);
   }
 
+  // SECTIONS:12
   get uid() {
     return this.authService.user.uid;
   }
 
+  // SECTIONS:11
   private getSchedule(startAt: number, endAt: number) {
     // firebase
     return this.db.list(`schedule/${this.uid}`, ref => ref
