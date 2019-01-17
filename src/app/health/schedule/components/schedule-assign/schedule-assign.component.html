@@ -1,15 +1,21 @@
 <div class="schedule-assign">
   <div class="schedule-assign__modal">
+
+    <!-- TITLE -->
     <div class="schedule-assign__title">
-      <img src="/assets/img/{{ section.type === 'workouts' ? 'workout' : 'food' }}.svg">
-      <h1>Assign {{ section.type }}</h1>
+      <h1>
+        <img src="/assets/img/{{ section.type === 'workouts' ? 'workout' : 'food' }}.svg">
+        Assign {{ section.type }}
+      </h1>
+
       <a class="btn__add"
-         [routerLink]="getRoute(section.type)"
-      >
+         [routerLink]="getRoute(section.type)">
         <img src="/assets/img/add-white.svg"/>
         New {{ section.type }}
       </a>
     </div>
+
+    <!-- LIST -->
     <div class="schedule-assign__list">
       <span class="schedule-assign__empty" *ngIf="!list?.length">
         <img src="/assets/img/face.svg"/>
@@ -18,10 +24,12 @@
       <div
         *ngFor="let item of list"
         [class.active]="exists(item.name)"
-        (click)=toggleItem(item.name)
-      >{{ item.name }}
+        (click)=toggleItem(item.name)>
+        {{ item.name }}
       </div>
     </div>
+
+    <!-- SUBMIT -->
     <div class="schedule-assign__submit">
       <div>
         <button

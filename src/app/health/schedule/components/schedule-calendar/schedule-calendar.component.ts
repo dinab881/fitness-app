@@ -30,11 +30,11 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
   @Input()
   items: ScheduleList;
 
-  // CONTROLS, DAYS
+  // CONTROLS, DAYS (on click on particular day of week?)
   @Output()
   change = new EventEmitter<Date>();
 
-  // DAYS: on click on particular day of week
+  // SECTIONS:20
   @Output()
   select = new EventEmitter<any>();
 
@@ -94,7 +94,7 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
     return this.items && this.items[name] || {};
   }
 
-  /* SECTIONS: */
+  /* SECTIONS:19 */
   selectSection({type, assigned, data}: any, section: string) {
     const day = this.selectedDay;
     this.select.emit({

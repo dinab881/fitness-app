@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ScheduleItem} from '../../../shared/services/schedule/schedule.service';
 
+// SECTIONS:14 - create component schedule-section
 @Component({
   selector: 'app-schedule-section',
   templateUrl: './schedule-section.component.html',
@@ -8,20 +9,21 @@ import {ScheduleItem} from '../../../shared/services/schedule/schedule.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScheduleSectionComponent implements OnInit {
+  // SECTIONS:15
   @Input()
   name: string;
 
+  // SECTIONS:16
   @Input()
   section: ScheduleItem;
 
+  // SECTIONS:17
   @Output()
   select = new EventEmitter<any>();
 
+  // SECTIONS:18
   onSelect(type: string, assigned: string[] = []){
     const data = this.section;
-   /* console.log(data);
-    console.log('type', type);
-    console.log('assigned', assigned);*/
     this.select.emit({
       type,
       assigned,

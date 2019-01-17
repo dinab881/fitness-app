@@ -28,10 +28,15 @@ export interface ScheduleList {
 @Injectable()
 export class ScheduleService {
   // BehaviorSubject here - allows us to initialize with a new  piece of data
+
+  // SECTIONS:23
   private section$ = new Subject();
+
   private date$ = new BehaviorSubject(new Date());
+  // ASSIGN:24
   private itemList$ = new Subject();
 
+  // ASSIGN:25
   items$ = this.itemList$.pipe(
     withLatestFrom(this.section$),
     map(([items, section]: any[]) => {
@@ -56,6 +61,7 @@ export class ScheduleService {
     })
   );
 
+  // SECTIONS:24
   selected$ = this.section$
     .pipe(
       tap((next: any) => this.store.set('selected', next))
@@ -75,6 +81,13 @@ export class ScheduleService {
       // between specific timestamp. For this we need startAt and endAt
       const startAt = (new Date(day.getFullYear(), day.getMonth(), day.getDate())).getTime();
       const endAt = (new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1)).getTime() - 1;
+      console.log('***SECTIONS***: startAt', new Date(startAt));
+      console.log('***SECTIONS***: endAt', new Date(endAt));
+      /**
+       * ***SECTIONS***: startAt Wed Jan 16 2019 00:00:00 GMT+0200 (Eastern European Standard Time)
+         ***SECTIONS***: endAt Wed Jan 16 2019 23:59:59 GMT+0200 (Eastern European Standard Time)
+       * it returns a day
+      **/
 
       return {startAt, endAt};
     }),
@@ -92,9 +105,16 @@ export class ScheduleService {
     tap((next: any) => this.store.set('schedule', next))
   );
 
+  // ASSIGN:8
   list$ = this.section$.pipe(
-    map((value: any) => this.store.value[value.type]),
-    tap((next: any) => this.store.set('list', next))
+    map((value: any) => {
+      console.log('ASSIGN: value: ', value);
+      return this.store.value[value.type];
+    }),
+    tap((next: any) => {
+      console.log('ASSIGN: next: ', next);
+     return this.store.set('list', next);
+    })
   );
 
 
@@ -125,6 +145,7 @@ export class ScheduleService {
       .valueChanges();
   }
 
+  // SECTIONS:22,25
   selectSection(event: any) {
     this.section$.next(event);
   }

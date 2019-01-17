@@ -8,7 +8,9 @@ import {ScheduleItem} from './app/health/shared/services/schedule/schedule.servi
 export interface State {
   user: User;
   meals: Meal[];
+  // SECTIONS:27
   selected: any;
+  // ASSIGN:9
   list: any;
   // SECTIONS:8
   schedule: ScheduleItem[];
@@ -19,7 +21,9 @@ export interface State {
 
 const state: State = {
   user: undefined,
+  // SECTIONS:28
   selected: undefined,
+  // ASSIGN:10
   list: undefined,
   meals: undefined,
   // SECTIONS:9
